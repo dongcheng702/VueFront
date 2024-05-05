@@ -76,7 +76,7 @@ export default {
         submitForm() {
             this.$refs.storeForm.validate((valid) => {
                 if (valid) {
-                    this.request.post("http://localhost:9090/updata", this.storeForm).then(res => {
+                    this.request.post("http://localhost:9090/store/updata", this.storeForm).then(res => {
                         if (res.data == 1) {
                             this.$message({
                                 showClose: true,
@@ -85,12 +85,6 @@ export default {
                             })
                             // 使用 Vue Router 导航到 SuccessPage 组件
                             this.$router.push({ name: 'StoreList' });
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                type: 'error',
-                                message: '更新失败'
-                            })
                         }
                     })
                 } else {

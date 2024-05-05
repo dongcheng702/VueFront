@@ -1,16 +1,22 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-// import Manege from '../views/Manege.vue'
+//import Manege from '../views/Manege.vue'
 
 // 导入 Vue Router 库
 Vue.use(VueRouter)
 
 // 定义路由配置
 const routes = [
+
+    {
+    // 路径
+    path: '/login',
+    name: 'login',
+    component: () => import('../views/Login.vue')
+  },
   {
     // 路径
     path: '/',
-    name: 'home',
     // 对应的组件
     component: () => import('../views/Manege.vue'),
     //重定向
@@ -23,14 +29,6 @@ const routes = [
       { path: 'storelist/edit?storeId=:id', name: "Edit", component: () => import('../views/StoreEdit.vue') ,props: true},
       { path: 'storelist/addstore', name: "AddStore", component: () => import('../views/AddStore.vue'),props: true}
     ]
-  },
-  {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
   }
 ]
 

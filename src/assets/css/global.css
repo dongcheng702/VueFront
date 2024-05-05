@@ -50,3 +50,12 @@ nav a.router-link-exact-active {
   padding: 10px 0;
 }
 
+/* Login */
+.login{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to bottom right, #f0f2f0, #000000);
+  height: 100vh;
+  overflow: hidden;
+}

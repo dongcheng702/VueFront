@@ -68,8 +68,8 @@ export default {
         submitForm() {
             this.$refs.storeForm.validate((valid) => {
                 if (valid) {
-                    this.request.post("http://1.15.242.164:9090/add", this.storeForm).then(res => {
-                        //console.log(res.data);
+                    this.request.post("http://localhost:9090/store/add", this.storeForm).then(res => {
+                        //console.log(res);
                         if (res.data == 1) {
                             this.$message({
                                 showClose: true,
@@ -77,12 +77,6 @@ export default {
                                 type: 'success'
                             });
                             this.$router.push({ name: 'StoreList' });
-                        } else {
-                            this.$message({
-                                showClose: true,
-                                message: '新增失败',
-                                type: 'error'
-                            });
                         }
                     })
                 } else {

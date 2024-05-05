@@ -6,6 +6,12 @@
 
 <script>
 export default {
-    name: 'Home'
+    name: 'Home',
+    created() {
+        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+        if (!user.userId) {
+            this.$router.push('/login')
+        }
+    }
 }
 </script>

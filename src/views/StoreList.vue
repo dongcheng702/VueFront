@@ -18,8 +18,9 @@
 " style="margin-left: 5px;"></i></el-button>
                 </el-popconfirm>
                 <div v-if="uploadShow">
-                    <el-upload class="upload-demo" ref="upload" action="http://1.15.242.164:9090/upfile" multiple :limit="1"
-                        :auto-upload="false" :accept="'.xls,.xlsx,.csv'" :on-success="upfile" style="margin-left: 10px;">
+                    <el-upload class="upload-demo" ref="upload" action="http://localhost:9090/store/upfile" multiple
+                        :limit="1" :auto-upload="false" :accept="'.xls,.xlsx,.csv'" :on-success="upfile"
+                        :headers="{ token: token }" style="margin-left: 10px;">
                         <el-button type="primary">导入<i class="el-icon-upload2" style="margin-left: 5px;"></i></el-button>
                     </el-upload>
                 </div>
@@ -71,7 +72,7 @@
 
 <script>
 // 定义请求的基础 URL
-const baseURL = "http://1.15.242.164:9090/";
+const baseURL = "http://localhost:9090/store/";
 export default {
     name: 'StoreList',
     data() {
@@ -86,11 +87,14 @@ export default {
             },
             id: "",
             idToPage: 0,
-            uploadShow: true
+            uploadShow: true,
+            token: ""
         }
     },
     created() {
         this.form.page = 1
+        let user = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {}
+        this.token = user.token
         this.selectStore()
         this.showALLStore()
         this.getDataCount()
@@ -137,18 +141,12 @@ export default {
         },
         deleteStore(row) {
             this.request.post(baseURL + "delete", row).then(res => {
-                //console.log(res.data);
+                //console.log(res);
                 if (res.data == 1) {
                     this.$message({
                         showClose: true,
                         type: 'success',
                         message: '删除成功'
-                    })
-                } else {
-                    this.$message({
-                        showClose: true,
-                        type: 'error',
-                        message: '删除失败'
                     })
                 }
                 this.selectStore()
@@ -162,18 +160,11 @@ export default {
             if (this.multipleSelection != null && this.multipleSelection.length > 0) {
                 let ids = this.multipleSelection.map(v => v.storeId);
                 this.request.post(baseURL + "deletes", ids).then(res => {
-                    //console.log(res.data);
                     if (res.data > 0) {
                         this.$message({
                             showClose: true,
                             type: 'success',
                             message: '删除成功'
-                        })
-                    } else {
-                        this.$message({
-                            showClose: true,
-                            type: 'error',
-                            message: '删除失败'
                         })
                     }
                     this.selectStore()
@@ -209,7 +200,7 @@ export default {
             if (this.multipleSelection != null && this.multipleSelection.length > 0) {
                 let ids = this.multipleSelection.map(v => v.storeId);
                 this.request.post(baseURL + "export", ids, { responseType: 'blob' }).then(response => {
-                    const url = window.URL.createObjectURL(new Blob([response.data]));
+                    const url = window.URL.createObjectURL(new Blob([response]));
                     const link = document.createElement('a');
                     link.href = url;
                     link.setAttribute('download', 'test.xlsx');
@@ -244,28 +235,23 @@ export default {
         },
         //上传文件
         submitUpload() {
+            console.log(this.token);
             this.$refs.upload.submit();
         },
         upfile(val) {
             console.log(val);
-            if (val > 0) {
+            if (val.code === '200') {
                 this.$message({
                     showClose: true,
                     type: 'success',
-                    message: '上传成功,成功导入:' + val + '条'
+                    message: '上传成功,成功导入:' + val.data + '条'
                 })
                 this.selectStore()
-            } else if (val == -1) {
-                this.$message({
-                    showClose: true,
-                    type: 'error',
-                    message: '正在尝试向表中插入一个已经存在的主键'
-                })
             } else {
                 this.$message({
                     showClose: true,
                     type: 'error',
-                    message: '上传失败'
+                    message: val.msg
                 })
             }
             this.$refs.upload.clearFiles();
