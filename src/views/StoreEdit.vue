@@ -76,7 +76,7 @@ export default {
         submitForm() {
             this.$refs.storeForm.validate((valid) => {
                 if (valid) {
-                    this.request.post("http://localhost:9090/store/updata", this.storeForm).then(res => {
+                    this.request.post("http://1.15.242.164:9090/store/updata", this.storeForm).then(res => {
                         if (res.data == 1) {
                             this.$message({
                                 showClose: true,

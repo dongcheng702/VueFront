@@ -29,7 +29,7 @@ export default {
   methods: {
     // 登录
     login() {
-      this.request.post("http://localhost:9090/login", this.user).then(res => {
+      this.request.post("http://1.15.242.164:9090/login", this.user).then(res => {
         console.log(res);
         if (res.code === '200') {
           localStorage.setItem('user', JSON.stringify(res.data))//存储用户信息到浏览器

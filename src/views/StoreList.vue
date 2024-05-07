@@ -18,7 +18,7 @@
 " style="margin-left: 5px;"></i></el-button>
                 </el-popconfirm>
                 <div v-if="uploadShow">
-                    <el-upload class="upload-demo" ref="upload" action="http://localhost:9090/store/upfile" multiple
+                    <el-upload class="upload-demo" ref="upload" action="http://1.15.242.164:9090/store/upfile" multiple
                         :limit="1" :auto-upload="false" :accept="'.xls,.xlsx,.csv'" :on-success="upfile"
                         :headers="{ token: token }" style="margin-left: 10px;">
                         <el-button type="primary">导入<i class="el-icon-upload2" style="margin-left: 5px;"></i></el-button>
@@ -72,7 +72,7 @@
 
 <script>
 // 定义请求的基础 URL
-const baseURL = "http://localhost:9090/store/";
+const baseURL = "http://1.15.242.164:9090/store/";
 export default {
     name: 'StoreList',
     data() {
